@@ -1,0 +1,224 @@
+---
+title: "Tips + Tricks with Beamer"
+subtitle: "A Quarto Perspective"
+thanks: "gcabrerag.rbind.io"
+
+author:
+    - name: Gabriel Cabrera
+      orcid: 0000-0000-0000-0000
+      affiliations:
+        - ref: ambs
+
+    - name: Author Two
+      orcid: 0000-0000-0000-0000
+      affiliations:
+        - ref: inst2
+
+    - name: Author Three
+      orcid: 0000-0000-0000-0000
+      affiliations:
+        - ref: inst3
+
+short-author: "Gabriel E. Cabrera Guzmán"
+
+affiliations:
+  - id: ambs
+    name: The University of Manchester
+    department: Alliance Manchester Business School
+
+  - id: inst2
+    name: Institution 2
+
+  - id: inst3
+    name: Institution 3
+
+date: "today"
+
+date-format: long
+
+fontfamily: lato
+
+format:
+  qbeamer-beamer: default
+---
+
+## Acknowledgment {#sec-intro}
+
+This presentation is inspired by Paul G. P.'s *Beamer Tips & Tricks* slides.
+
+- Original slides: [https://github.com/paulgp/beamer-tips](https://github.com/paulgp/beamer-tips).
+
+- This talk adapts and extends the ideas from a **Quarto-based workflow** without to much knowledge of La\TeX.
+
+- **More on Quarto**:  Official documentation and examples are available at [https://quarto.org](https://quarto.org).
+
+# From LaTeX to Quarto
+
+## Why Quarto?
+
+Unified workflow for writing, computing, and publishing.
+
+- **One source, many outputs**: Write once in `.qmd`, render to PDF (Beamer), HTML, Word, or slides.
+
+- **Language-agnostic**: Native support for **R**, **Python**, **Julia**, and plain Markdown.
+
+- **Reproducible by design**: Code, text, and figures live together.
+
+- **Seamless integration with Beamer**: Full control via LaTeX when needed, simple defaults otherwise.
+
+## yaml
+
+``` yaml
+---
+title: "An Example Using the Tufte Style"
+author: "John Smith"
+format:
+  html:
+    grid:
+      margin-width: 350px         # <1>
+  pdf: default
+reference-location: margin        # <2>
+citation-location: margin         # <2>
+---
+```
+
+1.  Increases the width of the margin to make more room for sidenotes and margin figures (HTML only).
+
+##
+
+1. $y_i = \begin{bmatrix} y_i \\ ... \\ y_n \end{bmatrix}$ is a vector of $n$ data points (0's and 1's).
+
+2. Each $y$ is associated with a scalar covariates $x_i$, from which we construct a design matrix:
+
+    $$
+    X = \begin{bmatrix} 1 & x_1 \\
+                1 & x_2 \\
+                ... & ... \\
+                1 & x_n
+    \end{bmatrix}
+    $$
+
+3. $\theta = \begin{bmatrix} \theta_1 \\ ... \\ \theta_n \end{bmatrix}$ is $\text{\color{red}{unobserved}} \rightarrow \text{\color{red}{"missing data"}}$.
+
+## Introduction (Cont'd)
+
+4. Exists some vector $\beta = \begin{bmatrix} \beta_0 \\ \beta_1 \end{bmatrix}$ such that:
+
+    $$
+    \theta_i = X_i\beta + \epsilon_i \quad \text{for} \quad i = 1,...,n.
+    $$
+
+    Where $X_i = [1 \; x_i]$ is the $i$th row of $X$, and $\epsilon_i \sim N(0,1)$
+
+5. Given $y$, we have a posterior distribution $f_{\beta|y}(\beta|y)$ over $\beta$. Then, we need to: \medskip
+
+    * Find the value $\hat{\beta}$ of $\beta$ at which this density is \underline{highest}
+
+    * Assume initial value $\beta^{(0)}$ for $\beta$, say $\beta^{(0)} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$. For $t=0$ to $N$ (iterations) we apply the  $\text{\color{red} E Step}$ and $\text{\color{red} M Step}$
+
+## **E Step**: Compute $Q(\beta|\beta^{(t)})$
+
+It suffices to find only those parts of $Q(\beta|\beta^{(t)})$ that depend on $\beta$:
+
+$$
+\mathbb{E}_X[g(X)]:=\int g(x) f_{X}(x) dx
+$$
+
+by definition:
+
+$$
+\begin{aligned}
+Q(\beta|\beta^{(t)}) &= \mathbb{E}_{\theta|\beta^{(t)},y}[\text{ln} \, f_{\theta,\beta|y}(\theta, \beta|y)] \\
+&= \mathbb{E}_{\theta|\beta^{(t)},y}[\text{ln} \, f_{\theta|y}(\theta|y)] +     \mathbb{E}_{\theta|\beta^{(t)},y}[\text{ln} \, f_{\beta| \theta, y}(\beta| \theta, y)] \\
+&= \mathbb{E}_{\theta|\beta^{(t)},y}[\text{ln} \, f_{\beta| \theta, y}(\beta| \theta, y)].
+\end{aligned}
+$$
+
+Why?
+
+## **E Step**: Compute $Q(\beta|\beta^{(t)})$ (Cont'd)
+
+$$
+\begin{aligned}
+f_{\beta|\theta,y}(\beta|\theta,y) &= f_{\theta|y}(\theta|y)f_{\beta|\theta,y}(\beta|\theta,y) \\
+&= f_{\beta|\theta,y}(\beta|\theta,y) \\
+&= \; \color{red}{...}\\
+&= f_{\beta|\theta}(\beta|\theta) \propto f_{\theta|\beta}(\theta|\beta)f_{\beta}(\beta) \\
+\end{aligned}
+$$
+
+Taking a uniform prior $f_{\beta}(\beta) \propto$ const:
+
+$$
+f_{\beta|\theta}(\beta|\theta)\propto f_{\theta|\beta}(\theta|\beta)
+$$
+
+Therefore becomes:
+
+$$
+\mathbb{E}_{\theta|\beta^{(t)},y}[\text{ln}(\text{const})] + \mathbb{E}_{\theta|\beta^{(t)},y}[f_{\theta|\beta}(\theta|\beta)].
+$$
+
+## **E Step**: Compute $Q(\beta|\beta^{(t)})$ (Cont'd)
+
+Our model specifies that $\theta \sim N_n(X\beta, \mathbf{I})$, so:
+
+$$
+\text{ln} f_{\theta|\beta}(\theta|\beta) \propto -\frac{1}{2}(\theta - X\beta)'(\theta - X\beta).
+$$
+
+Maximizing is equivalent to minimizing an "\text{\color{green}{expected sum of squares}}":
+
+$$
+\begin{aligned}
+\mathbb{E}_{\theta|\beta^{(t)},y}[(\theta - X\beta)'(\theta - X\beta)] &= \mathbb{E}_{(\cdot)}[\theta'\theta] - 2\mathbb{E}_{(\cdot)}[\beta'X'\theta] + \mathbb{E}[\beta'X'X\beta] \\
+&= \text{const} - 2\beta' \mathbb{E}_{(\cdot)}[X'\theta] + \beta'X'X\beta.
+\end{aligned}
+$$
+
+Where $(\cdot)=\theta|\beta^{(t)},y$ \underline{to save some space}.
+
+## **M Step:** Set $\beta^{t+1}:= \underset{\tiny \beta}{\mathrm{argmax}}\ \; Q(\beta|\beta^{(t)})$
+
+Setting the derivative of (4) with respect to $\beta$ to 0:
+
+$$
+\begin{aligned}
+ -2\beta' \mathbb{E}_{\theta|\beta^{(t)},y}[X'\theta] + \beta'X'X\beta &= 0 \\
+    (\mathbb{E}_{\theta|\beta^{(t)},y}[X'\theta])' &= \beta'X'X \\
+                    \mathbb{E}_{\theta|\beta^{(t)},y}[X'\theta] &= X'X\beta \\
+                    (X'X)^{-1} \mathbb{E}_{\theta|\beta^{(t)},y}[X'\theta]  &=: \beta^{(t+1)}
+\end{aligned}
+$$
+
+::: {.callout-note}
+
+## Two rules of matrix calculus
+
+For $\boldsymbol{\alpha}$, $\boldsymbol{x} \in \mathbb{R}^{m}$, $\mathbf{A} \in \mathbb{R}^{m \times m}$:
+
+$$
+\frac{\partial \boldsymbol{x}' \mathbf{\alpha}}{\partial \boldsymbol{x}} = \boldsymbol{\alpha}' \quad \text{and} \quad \frac{\partial \boldsymbol{x}' A\boldsymbol{x}}{\partial \boldsymbol{x}} = \boldsymbol{x}'(\mathbf{A}'+\mathbf{A})
+$$
+:::
+
+# Mathematical Expression
+
+# Callouts
+
+##
+
+::: {.callout-warning}
+
+## Two rules of matrix calculus
+
+For $\boldsymbol{\alpha}$, $\boldsymbol{x} \in \mathbb{R}^{m}$, $\mathbf{A} \in \mathbb{R}^{m \times m}$:
+
+$$
+\frac{\partial \boldsymbol{x}' \mathbf{\alpha}}{\partial \boldsymbol{x}} = \boldsymbol{\alpha}' \quad \text{and} \quad \frac{\partial \boldsymbol{x}' A\boldsymbol{x}}{\partial \boldsymbol{x}} = \boldsymbol{x}'(\mathbf{A}'+\mathbf{A})
+$$
+:::
+
+
+\BLButton{\hyperlink{sec-intro}{\beamerbutton{Outline}}}
+\BLButton{\hyperlink{sec-appendix}{\beamerbutton{Appendix}}}
