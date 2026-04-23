@@ -1,0 +1,8 @@
+Binding: create_project
+Title: Quarto Beamer Presentation (qbeamer)
+OpenFiles: skeleton.qmd
+
+Parameter: title
+Widget: TextInput
+Label: Presentation Title
+Default: Untitled Presentation
