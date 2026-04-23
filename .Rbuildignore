@@ -9,3 +9,7 @@
 ^\.DS_Store$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.claude$
+^before-body\.tex$
+^title\.tex$
+^LICENSE\.md$
