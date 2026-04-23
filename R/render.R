@@ -1,12 +1,12 @@
 #' Render a qbeamer presentation
 #'
-#' Wrapper around [quarto::quarto_render()] that checks the qbeamer extension
+#' Wrapper around `quarto::quarto_render()` that checks the qbeamer extension
 #' is installed before rendering.
 #'
 #' @param input Path to the `.qmd` file to render.
-#' @param ... Additional arguments passed to [quarto::quarto_render()].
+#' @param ... Additional arguments passed to `quarto::quarto_render()`.
 #'
-#' @return The return value of [quarto::quarto_render()].
+#' @return The return value of `quarto::quarto_render()`.
 #' @export
 qbeamer_render <- function(input, ...) {
   check_extension(input)
@@ -19,13 +19,13 @@ qbeamer_render <- function(input, ...) {
 
 #' Preview a qbeamer presentation
 #'
-#' Wrapper around [quarto::quarto_preview()] that checks the qbeamer extension
+#' Wrapper around `quarto::quarto_preview()` that checks the qbeamer extension
 #' is installed before previewing.
 #'
 #' @param input Path to the `.qmd` file to preview.
-#' @param ... Additional arguments passed to [quarto::quarto_preview()].
+#' @param ... Additional arguments passed to `quarto::quarto_preview()`.
 #'
-#' @return The return value of [quarto::quarto_preview()].
+#' @return The return value of `quarto::quarto_preview()`.
 #' @export
 qbeamer_preview <- function(input, ...) {
   check_extension(input)

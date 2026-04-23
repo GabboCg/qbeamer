@@ -17,3 +17,4 @@ Imports: fs
 Suggests: quarto
 URL: https://github.com/gcabrerag/qbeamer
 BugReports: https://github.com/gcabrerag/qbeamer/issues
+RoxygenNote: 7.3.2
