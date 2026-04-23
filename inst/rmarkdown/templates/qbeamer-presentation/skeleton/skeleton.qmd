@@ -1,0 +1,24 @@
+---
+title: "Untitled Presentation"
+subtitle: ""
+author:
+  - name: "Author Name"
+    orcid: 0000-0000-0000-0000
+    affiliations:
+      - ref: inst1
+
+affiliations:
+  - id: inst1
+    name: Institution Name
+    department: Department Name
+
+date: "today"
+date-format: long
+
+format:
+  qbeamer-beamer: default
+---
+
+## First Slide
+
+Content here.
