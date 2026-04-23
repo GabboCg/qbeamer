@@ -1,0 +1,16 @@
+title: qbeamer
+author: Gabriel Cabrera Guzmán
+version: 0.1.0
+contributes:
+  formats:
+    beamer:
+      include-in-header:
+        - preamble.tex
+      template-partials:
+        - title.tex
+      pdf-engine: xelatex
+      navigation: horizontal
+      theme: default
+      colortheme: default
+      aspectratio: 43
+      keep-tex: true
