@@ -1,24 +1,228 @@
 ---
 title: "Untitled Presentation"
-subtitle: ""
+subtitle: "A Quarto Perspective"
+thanks: "yourwebsite.com"
+
 author:
-  - name: "Author Name"
+  - name: Author One
     orcid: 0000-0000-0000-0000
     affiliations:
       - ref: inst1
 
+  - name: Author Two
+    orcid: 0000-0000-0000-0000
+    affiliations:
+      - ref: inst2
+
+short-author: "Author One"
+
 affiliations:
   - id: inst1
-    name: Institution Name
-    department: Department Name
+    name: University One
+    department: Department of Economics
+
+  - id: inst2
+    name: University Two
 
 date: "today"
 date-format: long
+
+fontfamily: lato
 
 format:
   qbeamer-beamer: default
 ---
 
-## First Slide
+## Outline {#sec-outline}
 
-Content here.
+This skeleton demonstrates the main features of **qbeamer**:
+
+1. Text formatting and Markdown basics
+2. Custom color palette
+3. Lists and enumeration
+4. Callouts (note and warning)
+5. Math and equations
+6. Figures and images
+7. Navigation buttons
+8. Footnotes
+
+# Text and Markdown
+
+## Text Formatting
+
+You can use standard Quarto Markdown:
+
+- **Bold text** with `**bold**`
+- *Italic text* with `*italic*`
+- `inline code` with backticks
+- [Hyperlinks](https://quarto.org) with `[text](url)`
+
+## Code Blocks
+
+A code block with syntax highlighting:
+
+```r
+library(ggplot2)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  theme_minimal()
+```
+
+# Custom Colors
+
+## Color Palette
+
+qbeamer defines four custom colors you can use with La\TeX\ commands:
+
+- \textcolor{blue}{Blue (0, 114, 178)} --- titles, items, links
+- \textcolor{red}{Red (213, 94, 0)} --- warnings, emphasis
+- \textcolor{green}{Green (0, 158, 115)} --- success, highlights
+
+Section break slides use a yellow background automatically.
+
+Use them inline: `\textcolor{blue}{your text}` or `\color{red}{your text}`
+
+## Colored Math
+
+Colors work inside math environments too:
+
+$$
+\hat{\beta} = \underset{\beta}{\text{\color{red}{argmin}}} \sum_{i=1}^{n} \left( y_i - X_i \beta \right)^2
+$$
+
+The $\text{\color{blue}{OLS estimator}}$ minimizes the $\text{\color{green}{sum of squared residuals}}$.
+
+# Lists and Enumeration
+
+## Bullet Points
+
+Bullet points use dashes with custom spacing:
+
+- First level item
+  - Second level item
+  - Another second level
+- Back to first level
+- Items are automatically justified
+
+## Numbered Lists
+
+1. First item with automatic numbering
+2. Second item
+3. Third item with nested bullets:
+   - Sub-item one
+   - Sub-item two
+
+# Callouts
+
+## Note Callout
+
+::: {.callout-note}
+## Important Concept
+
+Callout notes use the **blue** color scheme and are ideal for
+highlighting key concepts or definitions.
+
+$$
+\mathbb{E}[X] = \sum_{i=1}^{n} x_i \cdot P(X = x_i)
+$$
+:::
+
+## Warning Callout
+
+::: {.callout-warning}
+## Caution
+
+Warning callouts use the **red** color scheme. Use them to flag
+assumptions, limitations, or common pitfalls.
+:::
+
+# Math and Equations
+
+## Inline and Display Math
+
+Inline math: The sample mean is $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$.
+
+Display math with alignment:
+
+$$
+\begin{aligned}
+\mathcal{L}(\theta | x) &= \prod_{i=1}^{n} f(x_i | \theta) \\
+\ell(\theta | x) &= \sum_{i=1}^{n} \log f(x_i | \theta) \\
+\hat{\theta}_{MLE} &= \underset{\theta}{\mathrm{argmax}} \; \ell(\theta | x)
+\end{aligned}
+$$
+
+## Matrices
+
+$$
+X = \begin{bmatrix}
+1 & x_1 \\
+1 & x_2 \\
+\vdots & \vdots \\
+1 & x_n
+\end{bmatrix}, \quad
+\hat{\beta} = (X'X)^{-1}X'y
+$$
+
+# Figures
+
+## Including Images
+
+Use standard Quarto syntax for images:
+
+```markdown
+![Caption](path/to/figure.pdf){width=85% fig-align="center"}
+```
+
+With cross-references:
+
+```markdown
+![Caption](figure.png){#fig-label width=70%}
+```
+
+Reference in text with `@fig-label`.
+
+# Navigation and Footnotes
+
+## Navigation Buttons
+
+\BLButton{\hyperlink{sec-outline}{\beamerbutton{Outline}}}
+\BLButton{\hyperlink{sec-appendix}{\beamerbutton{Appendix}}}
+
+Add navigation buttons to any slide using La\TeX\ commands:
+
+```latex
+\BLButton{\hyperlink{sec-outline}{\beamerbutton{Outline}}}
+```
+
+Buttons appear in the bottom-left of the footline.
+
+## Footnotes
+
+Standard Markdown footnotes work in Quarto^[This is a regular footnote.].
+
+For the title slide, the `thanks` YAML field creates a dagger footnote automatically.
+
+## Vertical Spacing
+
+Use La\TeX\ spacing commands for fine control:
+
+\vspace{0.5cm}
+
+- `\vspace{0.5cm}` --- vertical space
+- `\medskip` --- medium vertical skip
+- `\smallskip` --- small vertical skip
+
+\medskip
+
+These are useful for adjusting layout within slides.
+
+# Appendix {#sec-appendix}
+
+## Resources
+
+- **Quarto documentation**: [https://quarto.org](https://quarto.org)
+- **Beamer user guide**: [https://ctan.org/pkg/beamer](https://ctan.org/pkg/beamer)
+- **qbeamer source**: [https://github.com/GabboCg/qbeamer](https://github.com/GabboCg/qbeamer)
+- **Inspired by**: [beamer-tips](https://github.com/paulgp/beamer-tips)

@@ -15,6 +15,6 @@ qbeamer_render(input, ...)
 The return value of \code{quarto::quarto_render()}.
 }
 \description{
-Wrapper around \code{quarto::quarto_render()} that checks the qbeamer extension
-is installed before rendering.
+Wrapper around \code{quarto::quarto_render()} that automatically installs the
+qbeamer extension if not present, then renders the presentation.
 }

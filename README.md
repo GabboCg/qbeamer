@@ -18,20 +18,21 @@ remotes::install_github("GabboCg/qbeamer")
 
 ### From RStudio
 
-- **New Project**: File > New Project > New Directory > Quarto Beamer Presentation (qbeamer)
-- **New File**: File > New File > R Markdown > From Template > Quarto Beamer (qbeamer)
+File > New Project > New Directory > **Quarto Beamer Presentation (qbeamer)**
+
+This creates a `.qmd` file with a full skeleton and installs the extension automatically.
 
 ### From R
 
 ```r
-# Install the extension in your project
-qbeamer::install_extension()
-
-# Render a presentation
+# Render a presentation (auto-installs extension if needed)
 qbeamer::qbeamer_render("slides.qmd")
 
 # Preview with live reload
 qbeamer::qbeamer_preview("slides.qmd")
+
+# Or install the extension manually in any project
+qbeamer::install_extension()
 ```
 
 ### QMD format

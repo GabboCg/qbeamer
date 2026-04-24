@@ -1,7 +1,7 @@
 #' Render a qbeamer presentation
 #'
-#' Wrapper around `quarto::quarto_render()` that checks the qbeamer extension
-#' is installed before rendering.
+#' Wrapper around `quarto::quarto_render()` that automatically installs the
+#' qbeamer extension if not present, then renders the presentation.
 #'
 #' @param input Path to the `.qmd` file to render.
 #' @param ... Additional arguments passed to `quarto::quarto_render()`.
@@ -9,7 +9,7 @@
 #' @return The return value of `quarto::quarto_render()`.
 #' @export
 qbeamer_render <- function(input, ...) {
-  check_extension(input)
+  ensure_extension(input)
   if (!requireNamespace("quarto", quietly = TRUE)) {
     stop("Package 'quarto' is required. Install it with install.packages('quarto').",
          call. = FALSE)
@@ -19,8 +19,8 @@ qbeamer_render <- function(input, ...) {
 
 #' Preview a qbeamer presentation
 #'
-#' Wrapper around `quarto::quarto_preview()` that checks the qbeamer extension
-#' is installed before previewing.
+#' Wrapper around `quarto::quarto_preview()` that automatically installs the
+#' qbeamer extension if not present, then starts the preview.
 #'
 #' @param input Path to the `.qmd` file to preview.
 #' @param ... Additional arguments passed to `quarto::quarto_preview()`.
@@ -28,7 +28,7 @@ qbeamer_render <- function(input, ...) {
 #' @return The return value of `quarto::quarto_preview()`.
 #' @export
 qbeamer_preview <- function(input, ...) {
-  check_extension(input)
+  ensure_extension(input)
   if (!requireNamespace("quarto", quietly = TRUE)) {
     stop("Package 'quarto' is required. Install it with install.packages('quarto').",
          call. = FALSE)
@@ -36,19 +36,15 @@ qbeamer_preview <- function(input, ...) {
   quarto::quarto_preview(input, ...)
 }
 
-#' Check that the qbeamer extension is installed
+#' Auto-install extension next to the input file if missing
 #'
-#' @param input Path to a `.qmd` file. The extension is checked relative to
-#'   the file's parent directory.
-#' @return `TRUE` invisibly if found; emits a message if not.
+#' @param input Path to a `.qmd` file.
 #' @noRd
-check_extension <- function(input) {
+ensure_extension <- function(input) {
   project_dir <- fs::path_dir(fs::path_abs(input))
   ext_dir <- fs::path(project_dir, "_extensions", "qbeamer")
   if (!fs::dir_exists(ext_dir)) {
-    stop("qbeamer extension not found in '", project_dir, "'. ",
-         "Run qbeamer::install_extension('", project_dir, "') first.",
-         call. = FALSE)
+    install_extension(path = project_dir)
   }
   invisible(TRUE)
 }

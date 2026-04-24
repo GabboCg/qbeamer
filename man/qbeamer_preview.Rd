@@ -15,6 +15,6 @@ qbeamer_preview(input, ...)
 The return value of \code{quarto::quarto_preview()}.
 }
 \description{
-Wrapper around \code{quarto::quarto_preview()} that checks the qbeamer extension
-is installed before previewing.
+Wrapper around \code{quarto::quarto_preview()} that automatically installs the
+qbeamer extension if not present, then starts the preview.
 }

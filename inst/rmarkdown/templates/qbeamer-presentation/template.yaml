@@ -1,6 +1,0 @@
-name: Quarto Beamer (qbeamer)
-description: >
-  A Quarto Beamer presentation using the qbeamer template with custom styling,
-  ORCID support, and professional formatting. Run qbeamer::install_extension()
-  after creating the file to install the extension.
-create_dir: false
